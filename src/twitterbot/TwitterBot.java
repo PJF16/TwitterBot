@@ -20,7 +20,9 @@ public class TwitterBot {
      */
     public static void main(String[] args) {
       TwitterActions actions = new TwitterActions ();
-      // works actions.postTweet("Hello! I'm testing my new Application!");
+      
+      //call your function here. example: 
+      
       int i=1;
       while (i>0){
       actions.searchTweetandRetweet("#austria");
