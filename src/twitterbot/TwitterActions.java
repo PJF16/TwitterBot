@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import twitter4j.IDs;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
@@ -27,7 +28,7 @@ import twitter4j.TwitterFactory;
  * @author philipp
  */
 public class TwitterActions {
-
+    public static final String USER_NAME_BOT = "TweetbotAustria";
     Twitter twitter;
     long lastStatusTime;
     ArrayList<Status> tweetAlreadyused;
@@ -52,8 +53,8 @@ public class TwitterActions {
     }
 
     /*
-     not finished - DO NOT USE!!!
-     */
+        Works but tries to retweet some Tweets twice. Checking...
+    */
     public void searchTweetandRetweet(String hashtag) {
         Query query = new Query(hashtag);
         query.count(40);
@@ -126,6 +127,28 @@ public class TwitterActions {
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TwitterActions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    /*
+        Not ready!!!! Do not use!!!
+    
+        User ID should be written in MySQL Database!
+    
+    */
+    public void writeFriendsToDatabase () {
+        try {
+            IDs followerIDsCursor = twitter.getFollowersIDs(USER_NAME_BOT, lastStatusTime);
+            long [] followerIDs = followerIDsCursor.getIDs();
+            
+            for (long id : followerIDs) {
+                //write to database
+                
+            }
+        } catch (TwitterException ex) {
+            Logger.getLogger(TwitterActions.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Fetching followers failed!");
         }
     }
 }
