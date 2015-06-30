@@ -151,4 +151,27 @@ public class TwitterActions {
             System.out.println("Fetching followers failed!");
         }
     }
+    
+    public void retweetAllTweetsFromTimeline () {
+        try {
+            this.tweets = (ArrayList<Status>) twitter.getHomeTimeline();
+            Collections.reverse (tweets);
+            
+            for (Status status : tweets) {
+                if (!status.isRetweetedByMe() && status.getCreatedAt().getTime() > this.lastStatusTime) {
+                    this.retweetTweet(status);
+                    this.lastStatusTime = status.getCreatedAt().getTime();
+                    this.writeTimeToFile();
+                    try {
+                        Thread.sleep (5000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(TwitterActions.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        } catch (TwitterException ex) {
+            Logger.getLogger(TwitterActions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }
